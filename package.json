@@ -1,0 +1,29 @@
+{
+  "name": "sporky",
+  "version": "0.1.0",
+  "description": "CLI Bitcoin/Lightning wallet powered by Breez SDK Spark — built for OpenClaw bots",
+  "type": "module",
+  "bin": {
+    "sporky": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@breeztech/breez-sdk-spark": "^0.7.10",
+    "@noble/hashes": "^1.4.0",
+    "bip39": "^3.1.0",
+    "commander": "^12.1.0",
+    "dotenv": "^17.3.1",
+    "nostr-tools": "^2.23.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "typescript": "^5.5.0"
+  }
+}
