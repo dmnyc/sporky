@@ -6,6 +6,7 @@ import {
   listUnclaimedDeposits,
   claimDeposit,
   refundDeposit,
+  syncWallet,
 } from "../services/wallet.js";
 import { output, outputSuccess, outputError } from "../output.js";
 import { resolveMnemonic } from "./wallet.js";
@@ -16,7 +17,8 @@ export function depositsCommand(): Command {
   cmd
     .command("list")
     .description("List unclaimed deposits")
-    .action(async () => {
+    .option("--no-sync", "Skip sync and show cached deposits (faster)")
+    .action(async (opts: { sync: boolean }) => {
       try {
         const config = loadConfig();
         if (!config.apiKey) {
@@ -26,6 +28,10 @@ export function depositsCommand(): Command {
 
         const mnemonic = await resolveMnemonic(config);
         await connectWallet(mnemonic, config);
+
+        if (opts.sync) {
+          await syncWallet();
+        }
 
         const deposits = await listUnclaimedDeposits();
 

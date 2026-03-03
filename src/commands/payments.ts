@@ -1,6 +1,6 @@
 import { Command } from "commander";
 import { loadConfig } from "../config.js";
-import { connectWallet, disconnectAndExit, listPayments } from "../services/wallet.js";
+import { connectWallet, disconnectAndExit, listPayments, syncWallet } from "../services/wallet.js";
 import { output, outputError } from "../output.js";
 import { resolveMnemonic } from "./wallet.js";
 import type { PaymentType } from "@breeztech/breez-sdk-spark";
@@ -11,7 +11,8 @@ export function paymentsCommand(): Command {
     .option("--limit <n>", "Number of transactions to show", parseInt, 20)
     .option("--offset <n>", "Offset for pagination", parseInt, 0)
     .option("--type <type>", "Filter by type: send or receive")
-    .action(async (opts: { limit: number; offset: number; type?: string }) => {
+    .option("--no-sync", "Skip sync and show cached payments (faster)")
+    .action(async (opts: { limit: number; offset: number; type?: string; sync: boolean }) => {
       try {
         const config = loadConfig();
         if (!config.apiKey) {
@@ -21,6 +22,10 @@ export function paymentsCommand(): Command {
 
         const mnemonic = await resolveMnemonic(config);
         await connectWallet(mnemonic, config);
+
+        if (opts.sync) {
+          await syncWallet();
+        }
 
         const typeFilter: PaymentType[] | undefined = opts.type
           ? [opts.type as PaymentType]

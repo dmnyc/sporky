@@ -157,6 +157,11 @@ export async function syncAndGetInfo(): Promise<GetInfoResponse> {
   return await s.getInfo({ ensureSynced: false });
 }
 
+export async function syncWallet(): Promise<void> {
+  const s = requireSdk();
+  await withTimeout(s.syncWallet({}), 30000, "Wallet sync");
+}
+
 // --- Parse Input ---
 
 export async function parseInput(input: string): Promise<InputType> {
