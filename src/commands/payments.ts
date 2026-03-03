@@ -45,6 +45,7 @@ export function paymentsCommand(): Command {
           fees: p.fees.toString(),
           method: p.method,
           timestamp: new Date(p.timestamp * 1000).toISOString(),
+          description: p.details?.type === "lightning" ? (p.details.description ?? null) : null,
         }));
 
         output(rows);
