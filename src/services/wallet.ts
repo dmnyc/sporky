@@ -153,7 +153,7 @@ export async function getInfo(): Promise<GetInfoResponse> {
 
 export async function syncAndGetInfo(): Promise<GetInfoResponse> {
   const s = requireSdk();
-  await withTimeout(s.syncWallet({}), 30000, "Wallet sync");
+  await withTimeout(s.syncWallet({}), 90000, "Wallet sync");
   return await s.getInfo({ ensureSynced: false });
 }
 

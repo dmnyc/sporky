@@ -7,7 +7,7 @@ import { resolveMnemonic } from "./wallet.js";
 export function balanceCommand(): Command {
   const cmd = new Command("balance")
     .description("Show wallet balance")
-    .option("--no-sync", "Skip sync and show cached balance (faster)")
+    .option("--sync", "Sync wallet before showing balance (slow, experimental)")
     .action(async (opts: { sync: boolean }) => {
       try {
         const config = loadConfig();
